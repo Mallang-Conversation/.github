@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>말랑 - Mallang</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+    function GameCard({ name, description, icon, onClick }) {
+      const cardStyle = {
+        background: '#ffffff',
+        borderRadius: '12px',
+        padding: '16px',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        cursor: 'pointer',
+        transition: 'transform 0.2s ease-in-out',
+        marginBottom: '16px',
+      };
+      const iconStyle = {
+        width: '48px',
+        height: '48px',
+        marginBottom: '8px',
+      };
+      const nameStyle = {
+        fontSize: '18px',
+        fontWeight: 'bold',
+        marginBottom: '4px',
+      };
+      const descStyle = {
+        fontSize: '14px',
+        color: '#666',
+      };
+      return (
+        <div
+          style={cardStyle}
+          onClick={onClick}
+          onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.03)')}
+          onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+        >
+          {icon && <img src={icon} alt={name} style={iconStyle} />}
+          <div style={nameStyle}>{name}</div>
+          <div style={descStyle}>{description}</div>
+        </div>
+      );
+    }
+
+    function App() {
+      const gameList = [
+        {
+          id: 1,
+          name: '끝말잇기',
+          description: '단어의 끝 글자부터 이어나가요!',
+          icon: 'https://via.placeholder.com/48?text=끝', 
+        },
+        {
+          id: 2,
+          name: '수수께끼',
+          description: '무엇일까? 문제를 맞혀보세요!',
+          icon: 'https://via.placeholder.com/48?text=수',
+        },
+        {
+          id: 3,
+          name: '스무고개',
+          description: '질문 20개 안에 답을 찾아요!',
+          icon: 'https://via.placeholder.com/48?text=스',
+        },
+        {
+          id: 4,
+          name: '다섯글자 대화',
+          description: '다섯 글자로 이어지는 말!',
+          icon: 'https://via.placeholder.com/48?text=다',
+        },
+      ];
+      const containerStyle = {
+        minHeight: '100vh',
+        background: '#f9fcff',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: '24px',
+      };
+      const headerStyle = {
+        width: '100%',
+        maxWidth: '480px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '24px',
+      };
+      const logoStyle = {
+        fontSize: '24px',
+        fontWeight: 'bold',
+      };
+      const rightIconsStyle = {
+        display: 'flex',
+        gap: '16px',
+      };
+      const mainStyle = {
+        width: '100%',
+        maxWidth: '480px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '16px',
+      };
+      const sectionTitleStyle = {
+        fontSize: '18px',
+        fontWeight: 'bold',
+        margin: '8px 0',
+      };
+      const handleGameClick = (gameId) => {
+        alert(`"${gameId}번 게임" 상세 화면으로 이동한다고 가정합니다.`);
+      };
+      return (
+        <div style={containerStyle}>
+          <header style={headerStyle}>
+            <div style={logoStyle}>말랑 - Mallang</div>
+            <div style={rightIconsStyle}>
+              <span style={{ cursor: 'pointer' }}>⚙️</span>
+              <span style={{ cursor: 'pointer' }}>❓</span>
+            </div>
+          </header>
+          <main style={mainStyle}>
+            <div style={sectionTitleStyle}>놀이 목록</div>
+            {gameList.map((game) => (
+              <GameCard
+                key={game.id}
+                name={game.name}
+                description={game.description}
+                icon={game.icon}
+                onClick={() => handleGameClick(game.id)}
+              />
+            ))}
+          </main>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>게임 플레이</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+  function GamePlay() {
+    const [isListening, setIsListening] = React.useState(false);
+    const [conversation, setConversation] = React.useState([
+      { text: "안녕! 끝말잇기 게임 시작할까?", type: 'system' }
+    ]);
+
+    const handleMicToggle = () => {
+      setIsListening(!isListening);
+      if (!isListening) {
+        // 실제 음성 인식 로직은 여기에 구현 가능
+        const mockResponse = { text: "바나나", type: 'user' };
+        setConversation([...conversation, mockResponse]);
+      }
+    };
+
+    return (
+        <div style={{ backgroundColor: 'white', height: '100vh', display: 'flex', flexDirection: 'column' }}>
+          {/* 상단 바 */}
+          <div style={{ display: 'flex', alignItems: 'center', padding: '16px', backgroundColor: '#3b82f6', color: 'white' }}>
+            <button style={{ marginRight: '16px', border: 'none', background: 'none', cursor: 'pointer' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            <h1 style={{ fontSize: '20px', fontWeight: 'bold' }}>끝말잇기</h1>
+          </div>
+
+          {/* 대화 영역 */}
+          <div style={{ flexGrow: 1, overflowY: 'auto', padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {conversation.map((msg, index) => (
+                <div key={index} style={{
+                  maxWidth: '80%',
+                  padding: '12px',
+                  borderRadius: '16px',
+                  alignSelf: msg.type === 'system' ? 'flex-start' : 'flex-end',
+                  backgroundColor: msg.type === 'system' ? '#dbeafe' : '#bbf7d0',
+                  color: msg.type === 'system' ? '#1e3a8a' : '#166534'
+                }}>
+                  {msg.text}
+                </div>
+            ))}
+          </div>
+
+          {/* 음성 인터랙션 영역 */}
+          <div style={{ padding: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <button onClick={handleMicToggle} style={{
+              padding: '16px',
+              borderRadius: '50%',
+              backgroundColor: isListening ? '#ef4444' : '#3b82f6',
+              color: 'white',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'transform 0.1s'
+            }}
+                    onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
+                    onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                <path d="M12 19v4M8 23h8M12 1a4 4 0 0 1 4 4v7a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+    );
+  }
+
+  ReactDOM.render(<GamePlay />, document.getElementById('root'));
+</script>
+</body>
+</html>
